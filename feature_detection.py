@@ -22,7 +22,7 @@ with open('feat_results.csv', 'w', newline='') as csvfile:
 
     files = os.listdir(IMG_DIR)
     for file in files:
-        if file == '.DS_Store' or file == TARGET_FILE:
+        if file in ('.DS_Store', '.gitkeep') or file == TARGET_FILE:
             continue
 
         comparing_img_path = IMG_DIR + file
