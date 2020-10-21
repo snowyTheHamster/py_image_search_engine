@@ -1,0 +1,5 @@
+.venv/
+.vscode/
+images/*
+!images/.gitkeep
+*.csv
