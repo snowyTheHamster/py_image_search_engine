@@ -1,6 +1,4 @@
 __pycache__/
 .venv/
 .vscode/
-images/*
-!images/.gitkeep
 *.csv
