@@ -1,5 +1,11 @@
 __pycache__/
+
 .venv/
 .vscode/
+
 *.csv
 *.html
+
+build/
+dist/
+*.spec
