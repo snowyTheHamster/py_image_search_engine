@@ -107,7 +107,7 @@ layout = [
     [sg.Text('SEARCH METHOD', font=(22))],
     [sg.Radio('Histogram', "_RADIO_MODE_", default=True, key='Radio_1'), sg.Radio('AKAZE', "_RADIO_MODE_", key='Radio_2'), sg.Radio('ORB', "_RADIO_MODE_", key='Radio_3')],
     [sg.Button("Search", size=(10, 1), bind_return_key=True, key='_SEARCH_')],
-    # [sg.Output(size=(70,30))],
+    [sg.Output(size=(70,30))],
 ]
 
 window = sg.Window('Image Search Engine', layout, element_justification='left')
