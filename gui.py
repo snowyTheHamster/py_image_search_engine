@@ -27,8 +27,20 @@ def runner():
     print(f'TARGET_FILE: {TARGET_FILE_FULL_PATH} \n')
     files = os.listdir(IMG_DIR)
 
-    with open('results.csv', 'w', newline='') as csvfile:
+
+    with open('results.csv', 'w', newline='') as csvfile, open('images.html', 'w') as htmlfile:
         csvwriter = csv.writer(csvfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+        htmlfile.write('<!DOCTYPE html>')
+        htmlfile.write('<head>')
+        htmlfile.write('</head>')
+        htmlfile.write('<body>')
+        htmlfile.write('<style>')
+        htmlfile.write('img{max-width:300px;}th,td{border:1px solid #ddd;}')
+        htmlfile.write('</style>')
+        htmlfile.write('<table>')
+        htmlfile.write('<tr><th>Rank</th><th>image url</th><th>ret score</th></tr>')
+        htmlfile.write(f'<tr><td></td><td><img src="{TARGET_FILE_FULL_PATH}"></td><td>reference image</td></tr>')
 
         for file in files:
             if file in ignore_files or file == TARGET_FILE:
@@ -59,9 +71,10 @@ def runner():
         else:
             new_result_list = sorted(result_list, key=operator.itemgetter(1))
 
-        for i in new_result_list:
+        for index, i in enumerate(new_result_list, start=1):
             print(i)
             csvwriter.writerow([i[0], i[1]])
+            htmlfile.write(f'<tr><td>{index}</td><td><img src="{i[0]}"></td><td>{i[1]}</td></tr>')
             
         if values['Radio_1'] == True:
             print('Histogram: higher value means images are similar to reference image \n')
@@ -71,6 +84,11 @@ def runner():
             print('ORB mode: lower value means images are similar to reference image \n')
 
         print('result saved to results.csv')
+
+        htmlfile.write('</table>')
+        htmlfile.write('</body>')
+        htmlfile.write('</html>')
+
 
 layout = [
     [sg.Text('Use reference Image to search for similar Images in folder.')],
@@ -89,7 +107,7 @@ layout = [
     [sg.Text('SEARCH METHOD', font=(22))],
     [sg.Radio('Histogram', "_RADIO_MODE_", default=True, key='Radio_1'), sg.Radio('AKAZE', "_RADIO_MODE_", key='Radio_2'), sg.Radio('ORB', "_RADIO_MODE_", key='Radio_3')],
     [sg.Button("Search", size=(10, 1), bind_return_key=True, key='_SEARCH_')],
-    [sg.Output(size=(70,30))],
+    # [sg.Output(size=(70,30))],
 ]
 
 window = sg.Window('Image Search Engine', layout, element_justification='left')
