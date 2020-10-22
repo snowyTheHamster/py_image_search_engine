@@ -1,4 +1,6 @@
-# Compare image similarities using python and opencv
+# python opencv image search engine
+
+![](screenshots/01.png)
 
 A script that when provided an reference image will search for similar images in a given folder.
 
