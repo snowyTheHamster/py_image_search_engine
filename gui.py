@@ -2,6 +2,7 @@ import cv2
 import os
 import csv
 import PySimpleGUI as sg
+import operator
 
 def runner():
     TARGET_FILE_FULL_PATH = values['_REF_IMG_']
@@ -51,8 +52,16 @@ def runner():
                 except cv2.error:
                     ret = 100000
 
-            print(file, ret)
-            csvwriter.writerow([f'{IMG_DIR}/{file}', f'{ret}'])
+            result_list.append([f'{IMG_DIR}/{file}', ret])
+
+        if values['Radio_1'] == True:
+            new_result_list = sorted(result_list, key=operator.itemgetter(1), reverse=True)
+        else:
+            new_result_list = sorted(result_list, key=operator.itemgetter(1))
+
+        for i in new_result_list:
+            print(i)
+            csvwriter.writerow([i[0], i[1]])
             
         if values['Radio_1'] == True:
             print('Histogram: higher value means images are similar to reference image \n')
@@ -85,6 +94,9 @@ layout = [
 
 window = sg.Window('Image Search Engine', layout, element_justification='left')
 
+result_list = []
+new_result_list = []
+
 ignore_files = [
     '.DS_Store',
     '.gitkeep',
@@ -95,4 +107,6 @@ while True:
     if event is None:
         break
     if event == '_SEARCH_':
+        result_list.clear()
+        new_result_list.clear()
         runner()
